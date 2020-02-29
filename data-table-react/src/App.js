@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import Loader from './loader/Loader';
 import DataTable from './data-table/DataTable';
+import _ from 'lodash';
 
 class App extends Component{
 
   state = {
     isLoading : true,
-    data : [] 
+    data : [],
+    sort : 'asc',//направление сортировки
+    sortField : 'id'
   }
 
   async componentDidMount() {
@@ -15,14 +18,35 @@ class App extends Component{
     
     this.setState ({
       isLoading : false,
-      data : data 
+      data : _.orderBy(data, this.state.sortField, this.state.sort)
     })
+  }
+
+  onSort = (sortField) => {
+    /* Клонируем массив */
+    const cloneData = this.state.data.concat();
+    const sortingDirection = this.state.sort === 'asc' ? 'desc' : 'asc';
+    const sortableArray = _.orderBy(cloneData, sortField, sortingDirection);
+
+    this.setState({
+      data : sortableArray,
+      sort : sortingDirection,
+      sortField : sortField
+    })   
   }
 
   render() {
     return (
       <div className="App">
-        { this.state.isLoading ? <Loader /> : <DataTable data={this.state.data} />}
+        { 
+          this.state.isLoading ? <Loader /> 
+          : <DataTable 
+          data={this.state.data} 
+          onSort={this.onSort}
+          sort={this.state.sort}
+          sortField={this.state.sortField}
+          />
+        } 
       </div>
     );
   }

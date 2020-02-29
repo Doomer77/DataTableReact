@@ -1,0 +1,17 @@
+.table{
+    width: 100%;
+    font-family: Arial;
+    text-align: center;
+    color: rgb(43, 43, 43);
+    border-collapse: collapse;
+}
+
+.table th{
+    padding: 1rem;
+    border: 2px solid #ccc; 
+}
+
+.table td{
+    padding: 0.5rem;
+    border: 2px solid #ccc; 
+}
