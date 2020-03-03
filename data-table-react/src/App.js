@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import Loader from './loader/Loader';
 import DataTable from './data-table/DataTable';
+import DetailRowWindow from './detail-row-window/DetailRowWindow';
 import _ from 'lodash';
 
-class App extends Component{
+import './app.css';
+
+class App extends Component{ 
 
   state = {
     isLoading : true,
     data : [],
     sort : 'asc',//направление сортировки
-    sortField : 'id'
+    sortField : 'id',
+    row : null
   }
 
   async componentDidMount() {
@@ -35,9 +39,13 @@ class App extends Component{
     })   
   }
 
+  onRowSelect = (row) => {
+    this.setState({ row })
+  }
+
   render() {
     return (
-      <div className="App">
+      <div className="app">
         { 
           this.state.isLoading ? <Loader /> 
           : <DataTable 
@@ -45,8 +53,13 @@ class App extends Component{
           onSort={this.onSort}
           sort={this.state.sort}
           sortField={this.state.sortField}
+          onRowSelect={this.onRowSelect}
           />
         } 
+
+        {
+          this.state.row ? <DetailRowWindow person={this.state.row}/> : null
+        }
       </div>
     );
   }

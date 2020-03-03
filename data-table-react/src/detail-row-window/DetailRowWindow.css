@@ -1,0 +1,32 @@
+.person-window{
+    width: 50%;
+    height: auto;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 3px dashed #ccc;
+}
+
+.person-description{
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-family: Arial;
+    color: chocolate;
+}
+
+.person-description b{
+    font-size: 1.2rem;
+    color: crimson;
+    text-decoration: underline;
+}
+
+.person-about{
+    width: 50%;
+    height: 5rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    resize: none;
+    border: 2px dashed rgb(131, 59, 59);
+    font-family: Arial;
+    font-size: 0.9rem;
+    outline: none;
+}
