@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Loader from './loader/Loader';
 import DataTable from './data-table/DataTable';
 import DetailRowWindow from './detail-row-window/DetailRowWindow';
+import ModeSelector from './mode-selector/ModeSelector';
 import _ from 'lodash';
 
 import './app.css';
@@ -9,15 +10,16 @@ import './app.css';
 class App extends Component{ 
 
   state = {
-    isLoading : true,
+    isModeSelected : false,
+    isLoading : false,
     data : [],
     sort : 'asc',//направление сортировки
     sortField : 'id',
     row : null
   }
 
-  async componentDidMount() {
-    const response = await fetch(`http://www.filltext.com/?rows=32&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&address=%7BaddressObject%7D&description=%7Blorem%7C32%7D`);
+  async fetchData(url) {
+    const response = await fetch(url);
     const data = await response.json();
     
     this.setState ({
@@ -29,12 +31,12 @@ class App extends Component{
   onSort = (sortField) => {
     /* Клонируем массив */
     const cloneData = this.state.data.concat();
-    const sortingDirection = this.state.sort === 'asc' ? 'desc' : 'asc';
-    const sortableArray = _.orderBy(cloneData, sortField, sortingDirection);
+    const sort = this.state.sort === 'asc' ? 'desc' : 'asc';
+    const data = _.orderBy(cloneData, sortField, sort);
 
     this.setState({
-      data : sortableArray,
-      sort : sortingDirection,
+      data : data,
+      sort : sort,
       sortField : sortField
     })   
   }
@@ -43,7 +45,25 @@ class App extends Component{
     this.setState({ row })
   }
 
+  modeSelectHandler = (url) => {
+    this.setState({
+      isModeSelected : true,
+      isLoading : true
+    });
+
+    this.fetchData(url)
+  }
+
   render() {
+
+    if(!this.state.isModeSelected) {
+      return (
+        <div className="mod-window">
+          <ModeSelector onSelect={this.modeSelectHandler}/>
+        </div>
+      )
+    }
+
     return (
       <div className="app">
         { 
