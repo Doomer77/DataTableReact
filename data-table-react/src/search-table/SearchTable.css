@@ -1,0 +1,30 @@
+.search-panel{
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.input-search{
+    margin-right: 0.5rem;
+    padding: 0.2rem;
+    outline: none;
+    font-size: 1rem;
+    border: 0.12rem solid rgb(240, 125, 125);
+    color: rgb(53, 53, 53);
+}
+
+.btn-search{
+    padding: 0.4rem;
+    outline: none;
+    border: none;
+    background-color: rgb(92, 180, 70);
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border-radius: 0.2rem;
+}
+
+.btn-search:hover{
+    background-color: rgba(92, 180, 70, .6);
+}

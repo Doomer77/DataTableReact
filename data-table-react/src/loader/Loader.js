@@ -1,4 +1,15 @@
 import React from 'react';
 import './Loader.css';
 
-export default () => <div className="lds-dual-ring"></div>
+const Loader = () => {
+    return (
+        <div className="loader-wrapper"> 
+            <div className="lds-dual-ring"></div>
+        </div>
+    )
+}
+
+export default Loader;
+
+
+

@@ -9,9 +9,11 @@
 .table th{
     padding: 1rem;
     border: 2px solid #ccc; 
+    cursor: pointer;
 }
 
 .table td{
     padding: 0.5rem;
     border: 2px solid #ccc; 
+    cursor: pointer;
 }
