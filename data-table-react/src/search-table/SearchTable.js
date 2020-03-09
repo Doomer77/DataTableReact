@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import "./SearchTable.css";
  
 const SearchTable = (props) => {
-
+console.log(props)
     const [value, setValue] = useState('');
 
     const valueChangeHandler = (event) => { 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactPaginate from 'react-paginate';
 import Loader from './loader/Loader';
 import DataTable from './data-table/DataTable';
@@ -9,26 +9,26 @@ import _ from 'lodash';
 
 import './app.css';
 
-class App extends Component{ 
+class App extends Component {
 
   state = {
-    isModeSelected : false,
-    isLoading : false,
-    data : [],
-    sort : 'asc',//направление сортировки
-    sortField : 'id',
-    row : null,
-    currentPage : 0,
+    isModeSelected: false,
+    isLoading: false,
+    data: [],
+    sort: 'asc',//направление сортировки
+    sortField: 'id',
+    row: null,
+    currentPage: 0,
     search: ""
   }
 
   async fetchData(url) {
     const response = await fetch(url);
     const data = await response.json();
-    
-    this.setState ({
-      isLoading : false,
-      data : _.orderBy(data, this.state.sortField, this.state.sort)
+
+    this.setState({
+      isLoading: false,
+      data: _.orderBy(data, this.state.sortField, this.state.sort)
     })
   }
 
@@ -39,46 +39,46 @@ class App extends Component{
     const data = _.orderBy(cloneData, sortField, sort);
 
     this.setState({
-      data : data,
-      sort : sort,
-      sortField : sortField
-    })   
+      data: data,
+      sort: sort,
+      sortField: sortField
+    })
   }
 
   onRowSelect = (row) => {
     this.setState({ row })
   }
 
-  pageChangeHeandler = ({selected}) => {
-    this.setState ({
-      currentPage : selected
+  pageChangeHeandler = ({ selected }) => {
+    this.setState({
+      currentPage: selected
     })
   }
 
   searchHandler = (search) => {
-    this.setState({search, currentPage: 0})
+    this.setState({ search, currentPage: 0 })
   }
 
   modeSelectHandler = (url) => {
     this.setState({
-      isModeSelected : true,
-      isLoading : true
+      isModeSelected: true,
+      isLoading: true
     });
 
     this.fetchData(url)
   }
 
-  getFilteredData () {
-    const {data, search} = this.state;
-
+  getFilteredData() {
+    const { data, search } = this.state;
+    console.log('>>>>>', search)
     if (!search) {
       return data;
     }
 
     return data.filter(item => {
-      return item['firstName'].toLowerCase().includes(search.toLowerCase()) || 
-              item['lastName'].toLowerCase().includes(search.toLowerCase()) ||
-              item['email'].toLowerCase().includes(search.toLowerCase())
+      return item['firstName'].toLowerCase().includes(search.toLowerCase()) ||
+        item['lastName'].toLowerCase().includes(search.toLowerCase()) ||
+        item['email'].toLowerCase().includes(search.toLowerCase())
     });
   }
 
@@ -86,10 +86,10 @@ class App extends Component{
 
     const pageZice = 50;
 
-    if(!this.state.isModeSelected) {
+    if (!this.state.isModeSelected) {
       return (
         <div className="mod-window">
-          <ModeSelector onSelect={this.modeSelectHandler}/>
+          <ModeSelector onSelect={this.modeSelectHandler} />
         </div>
       )
     }
@@ -99,30 +99,31 @@ class App extends Component{
     //debugger
 
     const pageCount = Math.ceil(filteredData.length / pageZice);
-    
-    const displayData = _.chunk(filteredData, pageZice)[this.state.currentPage];
 
+    const displayData = _.chunk(filteredData, pageZice);
+    const result = displayData.length <= 0 ? [] : displayData[this.state.currentPage]
+    console.log(displayData)
     return (
       <div className="container">
         <div className="app">
-          { 
-            this.state.isLoading ? <Loader /> 
-            : <React.Fragment>
-                <SearchTable onSearch={this.searchHandler}/>
-                <DataTable 
-                  data={displayData} 
+          {
+            this.state.isLoading ? <Loader />
+              : <React.Fragment>
+                <SearchTable onSearch={this.searchHandler} />
+                <DataTable
+                  data={result}
                   onSort={this.onSort}
                   sort={this.state.sort}
                   sortField={this.state.sortField}
                   onRowSelect={this.onRowSelect}
                 />
               </React.Fragment>
-          }  
+          }
 
           {/*pagination*/}
           {
-            this.state.data.length > pageZice 
-            ? <ReactPaginate
+            this.state.data.length > pageZice
+              ? <ReactPaginate
                 previousLabel={'<'}
                 nextLabel={'>'}
                 breakLabel={'...'}
@@ -144,7 +145,7 @@ class App extends Component{
           }
 
           {
-            this.state.row ? <DetailRowWindow person={this.state.row}/> : null
+            this.state.row ? <DetailRowWindow person={this.state.row} /> : null
           }
         </div>
       </div>
